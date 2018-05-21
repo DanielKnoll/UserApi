@@ -67,3 +67,4 @@ modules.xml
 .idea
 src/resources/application\.properties
 tests/resources/application\.properties
+target
