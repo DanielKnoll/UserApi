@@ -63,5 +63,7 @@ modules.xml
 .idea/misc.xml
 *.ipr
 
-.idea
 # End of https://www.gitignore.io/api/intellij+iml
+.idea
+src/resources/application\.properties
+tests/resources/application\.properties
