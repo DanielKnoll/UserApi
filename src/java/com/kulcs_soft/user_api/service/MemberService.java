@@ -5,7 +5,9 @@ import com.kulcs_soft.user_api.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class MemberService {
@@ -18,7 +20,11 @@ public class MemberService {
     }
 
     @Transactional
-    public Member getMemberById(Long userId) {
+    public Member getUserById(Long userId) {
         return memberRepository.getOne(userId);
+    }
+
+    public List<Member> getAllUser() {
+        return memberRepository.findAll();
     }
 }
