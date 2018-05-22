@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <nav class="navbar navbar-light bg-light" th:fragment="copy">
+        <a class="navbar-brand" href="/">
+            <img src="/img/logo.png"  alt="Kulcs-Soft">
+        </a>
+        <div th:replace="blocks/loginBlock :: copy"></div>
+    </nav>
+</body>
+</html>

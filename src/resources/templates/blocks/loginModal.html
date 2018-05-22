@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <!-- Modal -->
+    <div th:fragment="copy" class="modal fade" id="loginModal" tabindex="-1" role="dialog"
+         aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="login">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Please log in</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/login" method="post">
+                        <div class="form-group">
+                            <label for="userName">User Name</label>
+                            <input id="userName" name="userName" type="text" class="form-control"
+                                   placeholder="Name" required minlength="3"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="userPassword">Password</label>
+                            <input id="userPassword" name="userPassword" type="password"
+                                   class="form-control" placeholder="Password" required minlength="8"/>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

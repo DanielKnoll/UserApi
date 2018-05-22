@@ -35,6 +35,10 @@ public class Member {
         this.userPassword = Password.hashPassword(userPassword);
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
     public String getUserName() {
         return userName;
     }
