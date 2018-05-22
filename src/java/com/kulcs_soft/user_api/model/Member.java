@@ -1,5 +1,6 @@
 package com.kulcs_soft.user_api.model;
 
+import com.kulcs_soft.user_api.utility.Password;
 import org.springframework.data.annotation.Transient;
 
 import javax.persistence.Entity;
@@ -31,7 +32,7 @@ public class Member {
     public Member(String userName, String userEmail, String userPassword) {
         this.userName = userName;
         this.userEmail = userEmail;
-        this.userPassword = userPassword;
+        this.userPassword = Password.hashPassword(userPassword);
     }
 
     public String getUserName() {
