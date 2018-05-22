@@ -1,13 +1,40 @@
 package com.kulcs_soft.user_api.controller;
 
+import com.kulcs_soft.user_api.model.Member;
+import com.kulcs_soft.user_api.service.MemberService;
+import com.kulcs_soft.user_api.utility.Password;
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class UserController {
 
+    @Autowired
+    private MemberService memberService;
+
     @GetMapping(value = "/")
     public String renderIndex(){
         return "index";
+    }
+
+    @PostMapping(value = "/login")
+    public String login(HttpServletRequest req, HttpSession session, Model model) {
+        String name = req.getParameter("userName");
+        Member user = memberService.getUserByName(name);
+        if(user != null &&
+                Password.checkPassword(req.getParameter("userPassword"), user.getUserPassword())){
+            session.setAttribute("name", req.getParameter("userName"));
+            session.setAttribute("id", user.getUserId());
+            return "index";
+        }else{
+            model.addAttribute("errormsg", "Login Failed! Username or Password invalid!");
+            return "error";
+        }
     }
 }
