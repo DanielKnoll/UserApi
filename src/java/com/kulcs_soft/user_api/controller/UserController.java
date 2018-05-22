@@ -43,6 +43,14 @@ public class UserController {
 
     @PostMapping(value = "/registration")
     public String register(Model model, HttpServletRequest req, HttpSession session){
+        int userNameCharLimit = 3;
+        int userPswdCharLimit = 8;
+        if (req.getParameter("userName").length() < userNameCharLimit ||
+                req.getParameter("userPassword").length() < userPswdCharLimit) {
+            model.addAttribute("error", "Invalid input length!");
+            return "error";
+        }
+        
         if(memberService.isUserNameFree(req.getParameter("userName"))) {
             memberService.saveMember(
                     new Member(req.getParameter("userName"),
