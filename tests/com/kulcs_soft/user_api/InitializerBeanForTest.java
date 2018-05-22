@@ -1,6 +1,7 @@
-package configuration;
+package com.kulcs_soft.user_api;
 import com.kulcs_soft.user_api.model.Member;
 import com.kulcs_soft.user_api.service.MemberService;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +11,7 @@ import javax.annotation.PostConstruct;
 public class InitializerBeanForTest {
 
     @Autowired
-    MemberService memberService;
+    private MemberService memberService;
 
     @PostConstruct
     public void init() {
