@@ -19,7 +19,10 @@ public class UserController {
     private MemberService memberService;
 
     @GetMapping(value = "/")
-    public String renderIndex(){
+    public String renderIndex(HttpSession session , Model model){
+        if (session.getAttribute("userId") != null) {
+            model.addAttribute("userName", session.getAttribute("userName"));
+        }
         return "index";
     }
 
@@ -29,8 +32,8 @@ public class UserController {
         Member user = memberService.getUserByName(name);
         if(user != null &&
                 Password.checkPassword(req.getParameter("userPassword"), user.getUserPassword())){
-            session.setAttribute("name", req.getParameter("userName"));
-            session.setAttribute("id", user.getUserId());
+            session.setAttribute("userName", req.getParameter("userName"));
+            session.setAttribute("userId", user.getUserId());
             return "redirect:/";
         }else{
             model.addAttribute("errormsg", "Login Failed! Username or Password invalid!");
@@ -46,12 +49,18 @@ public class UserController {
                             req.getParameter("userEmail"),
                             req.getParameter("userPassword")));
             Member member = memberService.getUserByName(req.getParameter("userName"));
-            session.setAttribute("name", req.getParameter("userName"));
-            session.setAttribute("id", member.getUserId());
+            session.setAttribute("userName", req.getParameter("userName"));
+            session.setAttribute("userId", member.getUserId());
             return "redirect:/";
         }else{
             model.addAttribute("error", "Registration Failed!");
             return "error";
         }
+    }
+
+    @GetMapping(value = "/logout")
+    public String logout(HttpSession session){
+        session.invalidate();
+        return "redirect:/";
     }
 }
