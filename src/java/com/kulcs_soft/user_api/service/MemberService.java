@@ -20,11 +20,19 @@ public class MemberService {
     }
 
     @Transactional
-    public Member getUserById(Long userId) {
+    public Member getUserById(Long userId) throws EntityNotFoundException {
         return memberRepository.getOne(userId);
     }
 
     public List<Member> getAllUser() {
         return memberRepository.findAll();
+    }
+
+    public Member getUserByName(String name) {
+        return memberRepository.findByUserName(name);
+    }
+
+    public boolean isUserNameFree(String name) {
+        return (getUserByName(name)== null);
     }
 }

@@ -30,12 +30,7 @@ public class MemberServiceTests {
     @DisplayName("Get User by ID, INVALID")
     public void testGetUserByIdInvalid() {
         assertThrows(EntityNotFoundException.class, () -> memberService.getUserById(100L));
-    }
-
-    @Test
-    @DisplayName("Test SaveUser")
-    public void testGetAllUsers() {
-        assertEquals(2, memberService.getAllUser().size());
+        //assertNull(memberService.getUserById(100L));  // it does throws error
     }
 
     @Test
@@ -44,5 +39,35 @@ public class MemberServiceTests {
         Member member = new Member("TestName3", "testEmail", "TestPassword");
         memberService.saveMember(member);
         assertEquals(3, memberService.getAllUser().size());
+    }
+
+    @Test
+    @DisplayName("Test getAllUsers")
+    public void testGetAllUsers() {
+        assertEquals(3, memberService.getAllUser().size());
+    }
+
+    @Test
+    @DisplayName("Get User by Name, VALID")
+    public void testGetUserByName() {
+        assertEquals("TestName2", memberService.getUserByName("TestName2").getUserName());
+    }
+
+    @Test
+    @DisplayName("Get User by Name, INVALID")
+    public void testGetUserByInvalidName() {
+        assertNull(memberService.getUserByName("None").getUserName());
+    }
+
+    @Test
+    @DisplayName("Check if name exists Name, TRUE")
+    public void testIsUserNameFree() {
+        assertTrue(memberService.isUserNameFree("TestName2"));
+    }
+
+    @Test
+    @DisplayName("Check if name exists Name, FALSE")
+    public void testIsUserNameFreeFalse() {
+        assertFalse(memberService.isUserNameFree("Test"));
     }
 }
