@@ -5,10 +5,12 @@ import com.kulcs_soft.user_api.repository.MemberRepository;
 import com.kulcs_soft.user_api.service.MemberService;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,13 +21,10 @@ public class UserApiController {
     @Autowired
     private MemberService memberService;
 
-    @Autowired
-    private MemberRepository memberRepository;
-
     @GetMapping(value = "/api/users")
     public ResponseEntity<JSONObject> getAlUser() {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("allUsers", memberRepository.getUserIdAndAndUserNameAndUserEmail());
+        jsonObject.put("allUsers", memberService.getAllUserWithOutPswd());
         return new ResponseEntity<>(jsonObject, HttpStatus.OK);
     }
 
@@ -37,6 +36,11 @@ public class UserApiController {
     @PutMapping(value = "/api/adduser")
     public ResponseEntity<String> addUserPut(@RequestBody Map<String, Object> data) {
         return checkAndSaveUser(data);
+    }
+
+    @DeleteMapping(value = "/api/deleteuser/{userId}")
+    public ResponseEntity<String> deleteUserDelete(@PathVariable("userId") String userIdSrting) {
+        return deleteUser(userIdSrting);
     }
 
     private ResponseEntity<String> checkAndSaveUser(Map<String, Object> data) {
@@ -78,5 +82,20 @@ public class UserApiController {
             return new ResponseEntity<>("Password is too short", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>("User added.",HttpStatus.OK);
+    }
+
+    private ResponseEntity<String> deleteUser(String userIdSrting) {
+        Long userId;
+        try {
+            userId = Long.valueOf(userIdSrting);
+        } catch (NumberFormatException e) {
+            return new ResponseEntity<>("Argument is not a number", HttpStatus.BAD_REQUEST);
+        }
+        try {
+            memberService.deleteUser(userId);
+        } catch (EmptyResultDataAccessException e) {
+            return new ResponseEntity<>("There is no such user ID", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("User with ID: " + userIdSrting + " deleted" , HttpStatus.OK);
     }
 }

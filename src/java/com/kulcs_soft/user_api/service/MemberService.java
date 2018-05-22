@@ -28,11 +28,19 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
+    public List<Object> getAllUserWithOutPswd() {
+        return memberRepository.getUserIdAndAndUserNameAndUserEmail();
+    }
+
     public Member getUserByName(String name) {
         return memberRepository.findByUserName(name);
     }
 
     public boolean isUserNameFree(String name) {
-        return (getUserByName(name)== null);
+        return getUserByName(name) == null;
+    }
+
+    public void deleteUser(Long userId) {
+        memberRepository.deleteById(userId);
     }
 }
