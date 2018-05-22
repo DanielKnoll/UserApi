@@ -5,7 +5,12 @@
         <div th:replace="blocks/header :: copy"></div>
 
         <div class="container">
-            <h1>Server is running</h1>
+            <div th:if="${userName}">
+                <h1>Login/registration works too</h1>
+            </div>
+            <div th:unless="${userName}">
+                <h1>Server is running</h1>
+            </div>
         </div>
         <div th:replace="blocks/loginModal :: copy"></div>
         <div th:replace="blocks/regModal :: copy"></div>
