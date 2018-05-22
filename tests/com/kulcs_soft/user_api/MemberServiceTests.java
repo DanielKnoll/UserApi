@@ -37,7 +37,7 @@ public class MemberServiceTests {
     @DisplayName("Test SaveUser")
     public void testSaveUser() {
         Member member = new Member("TestName3", "testEmail", "TestPassword");
-        memberService.saveMember(member);
+        memberService.saveUser(member);
         assertEquals(3, memberService.getAllUser().size());
     }
 

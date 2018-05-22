@@ -19,7 +19,7 @@ public class InitializerBeanForTest {
         setTestRunning();
         Member member = new Member("TestName", "testEmail", "TestPassword");
         Member member2 = new Member("TestName2", "testEmail2", "TestPassword2");
-        memberService.saveMember(member);
-        memberService.saveMember(member2);
+        memberService.saveUser(member);
+        memberService.saveUser(member2);
     }
 }

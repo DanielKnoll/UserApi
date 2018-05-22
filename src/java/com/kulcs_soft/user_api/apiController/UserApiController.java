@@ -17,10 +17,10 @@ import java.util.regex.Pattern;
 public class UserApiController {
 
     @Autowired
-    MemberService memberService;
+    private MemberService memberService;
 
     @Autowired
-    MemberRepository memberRepository;
+    private MemberRepository memberRepository;
 
     @GetMapping(value = "/api/users")
     public ResponseEntity<JSONObject> getAlUser() {
@@ -31,6 +31,10 @@ public class UserApiController {
 
     @PutMapping(value = "/api/adduser")
     public ResponseEntity<String> addUser(@RequestBody Map<String, Object> data) {
+        return checkAndSaveUser(data);
+    }
+
+    private ResponseEntity<String> checkAndSaveUser(Map<String, Object> data) {
         String userName = data.get("userName").toString();
         String userEmail = data.get("userEmail").toString();
         String userPassword = data.get("userPassword").toString();
@@ -40,7 +44,7 @@ public class UserApiController {
             return responseEntity;
         }
 
-        memberService.saveMember(new Member(userName, userEmail, userPassword));
+        memberService.saveUser(new Member(userName, userEmail, userPassword));
         return responseEntity;
     }
 
