@@ -29,8 +29,13 @@ public class UserApiController {
         return new ResponseEntity<>(jsonObject, HttpStatus.OK);
     }
 
+    @PostMapping(value = "/api/adduser")
+    public ResponseEntity<String> addUserPost(@RequestBody Map<String, Object> data) {
+        return checkAndSaveUser(data);
+    }
+
     @PutMapping(value = "/api/adduser")
-    public ResponseEntity<String> addUser(@RequestBody Map<String, Object> data) {
+    public ResponseEntity<String> addUserPut(@RequestBody Map<String, Object> data) {
         return checkAndSaveUser(data);
     }
 
