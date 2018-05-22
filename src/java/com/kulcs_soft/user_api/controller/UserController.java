@@ -31,9 +31,26 @@ public class UserController {
                 Password.checkPassword(req.getParameter("userPassword"), user.getUserPassword())){
             session.setAttribute("name", req.getParameter("userName"));
             session.setAttribute("id", user.getUserId());
-            return "index";
+            return "redirect:/";
         }else{
             model.addAttribute("errormsg", "Login Failed! Username or Password invalid!");
+            return "error";
+        }
+    }
+
+    @PostMapping(value = "/registration")
+    public String register(Model model, HttpServletRequest req, HttpSession session){
+        if(memberService.isUserNameFree(req.getParameter("userName"))) {
+            memberService.saveMember(
+                    new Member(req.getParameter("userName"),
+                            req.getParameter("userEmail"),
+                            req.getParameter("userPassword")));
+            Member member = memberService.getUserByName(req.getParameter("userName"));
+            session.setAttribute("name", req.getParameter("userName"));
+            session.setAttribute("id", member.getUserId());
+            return "redirect:/";
+        }else{
+            model.addAttribute("error", "Registration Failed!");
             return "error";
         }
     }
