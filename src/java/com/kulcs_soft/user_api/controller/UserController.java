@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class UserController {
 
     @GetMapping(value = "/")
-    public String renderMain(){
+    public String renderIndex(){
         return "index";
     }
 }

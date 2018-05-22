@@ -1,0 +1,13 @@
+.log {
+    border-radius: 0rem .25rem .25rem 0rem;
+}
+
+.reg {
+    border-radius: .25rem 0rem 0rem .25rem;
+}
+
+.container h1 {
+    color: dodgerblue;
+    text-align: center;
+    margin-top: 100px;
+}
