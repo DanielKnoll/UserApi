@@ -5,14 +5,7 @@
         <a class="navbar-brand" href="/">
             <img src="/img/logo.png"  alt="Kulcs-Soft">
         </a>
-        <div class="btn-group" role="group" aria-label="Basic example">
-            <button type="register" class="btn btn-danger reg" data-toggle="modal" data-target="#regModal">
-                Register
-            </button>
-            <button type="login" class="btn btn-primary log" data-toggle="modal" data-target="#loginModal">
-                Login
-            </button>
-        </div>
+        <div th:replace="blocks/loginBlock :: copy"></div>
     </nav>
 </body>
 </html>
