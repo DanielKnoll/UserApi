@@ -31,15 +31,7 @@ public class UserApiController {
         return new ResponseEntity<>(jsonObject, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/api/adduser")
-    public ResponseEntity<String> addUserPost(@RequestBody Map<String, String> data, HttpSession session) {
-        if (session.getAttribute("id") == null) {
-            return new ResponseEntity<>("Login required", HttpStatus.BAD_REQUEST);
-        }
-        return checkAndSaveUser(data);
-    }
-
-    @PutMapping(value = "/api/adduser")
+    @RequestMapping(value = "/api/adduser", method = { RequestMethod.PUT, RequestMethod.POST })
     public ResponseEntity<String> addUserPut(@RequestBody Map<String, String> data, HttpSession session) {
         if (session.getAttribute("id") == null) {
             return new ResponseEntity<>("Login required", HttpStatus.BAD_REQUEST);
@@ -47,7 +39,7 @@ public class UserApiController {
         return checkAndSaveUser(data);
     }
 
-    @DeleteMapping(value = "/api/deleteuser/{userId}")
+    @RequestMapping(value = "/api/deleteuser/{userId}", method = { RequestMethod.DELETE, RequestMethod.POST })
     public ResponseEntity<String> deleteUserDelete(@PathVariable("userId") String userIdSrting, HttpSession session) {
         if (session.getAttribute("id") == null) {
             return new ResponseEntity<>("Login required", HttpStatus.BAD_REQUEST);
@@ -65,7 +57,7 @@ public class UserApiController {
             session.setAttribute("userId", user.getUserId());
             return new ResponseEntity<>("Logged in",HttpStatus.OK);
         }else{
-            return new ResponseEntity<>("Login Failed! Username or Password invalid!",HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Login Failed! Username or Password invalid!",HttpStatus.UNAUTHORIZED);
         }
     }
 
