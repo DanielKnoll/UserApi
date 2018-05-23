@@ -24,7 +24,7 @@ public class UserApiController {
     @GetMapping(value = "/api/users")
     public ResponseEntity getAlUser(HttpSession session) {
         if (session.getAttribute("id") == null) {
-            return new ResponseEntity<>("Login required", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Login required", HttpStatus.FORBIDDEN);
         }
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("allUsers", memberService.getAllUserWithOutPswd());
@@ -34,17 +34,17 @@ public class UserApiController {
     @RequestMapping(value = "/api/adduser", method = { RequestMethod.PUT, RequestMethod.POST })
     public ResponseEntity<String> addUserPut(@RequestBody Map<String, String> data, HttpSession session) {
         if (session.getAttribute("id") == null) {
-            return new ResponseEntity<>("Login required", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Login required", HttpStatus.FORBIDDEN);
         }
         return checkAndSaveUser(data);
     }
 
-    @RequestMapping(value = "/api/deleteuser/{userId}", method = { RequestMethod.DELETE, RequestMethod.POST })
-    public ResponseEntity<String> deleteUserDelete(@PathVariable("userId") String userIdSrting, HttpSession session) {
+    @RequestMapping(value = "/api/deleteuser", method = { RequestMethod.DELETE, RequestMethod.POST })
+    public ResponseEntity<String> deleteUserDelete(@RequestBody Map<String, String> data, HttpSession session) {
         if (session.getAttribute("id") == null) {
-            return new ResponseEntity<>("Login required", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Login required", HttpStatus.FORBIDDEN);
         }
-        return deleteUser(userIdSrting);
+        return deleteUser(data.get("userId"));
     }
 
     @PostMapping(value = "api/login")
@@ -105,8 +105,15 @@ public class UserApiController {
     private ResponseEntity<String> CheckUserInput(String name, String email, String pswd) {
         int userNameCharLimit = 3;
         int userPswdCharLimit = 8;
-        Pattern pattern = Pattern.compile("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}");
-        Matcher mat = pattern.matcher(email);
+        Pattern pattern;
+        Matcher mat;
+
+        if(name == null || email == null || pswd == null) {
+            return new ResponseEntity<>("Argument is missing", HttpStatus.BAD_REQUEST);
+        }
+
+        pattern = Pattern.compile("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}");
+        mat = pattern.matcher(email);
 
         if (name.length() < userNameCharLimit) {
             return new ResponseEntity<>("Username is too short", HttpStatus.BAD_REQUEST);
