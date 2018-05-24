@@ -5,6 +5,7 @@ import com.kulcs_soft.user_api.service.MemberService;
 import com.kulcs_soft.user_api.utility.Password;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @RestController
+@Scope("session")
 public class UserApiController {
 
     @Autowired
