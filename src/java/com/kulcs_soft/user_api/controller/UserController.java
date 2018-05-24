@@ -52,7 +52,7 @@ public class UserController {
         }
         
         if(memberService.isUserNameFree(req.getParameter("userName"))) {
-            memberService.saveMember(
+            memberService.saveUser(
                     new Member(req.getParameter("userName"),
                             req.getParameter("userEmail"),
                             req.getParameter("userPassword")));
